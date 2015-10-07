@@ -28,22 +28,29 @@ sio.set('authorization', function(handshakeData, accept) {
   accept(null, true);
 });
 
+var color=["RED","BLUE","GREEN"];
+
 function Viewers(sio) {
   var data = [];
+  var nick = [];
 
   function notifyChanges() {
     sio.emit('viewers:updated', data);
   }
 
   return {
-    add: function add(nickname) {
-      data.push(nickname);
+    add: function add(nickname, color) {
+      data.push([color,nickname]);
+      nick.push(nickname);
       notifyChanges();
+      return data.length-1;
     },
     remove: function remove(nickname) {
-      var idx = data.indexOf(nickname);
-      if (idx > -1) {
-        data.splice(idx, 1);
+      console.log("Removing " + nickname);
+      var id = nick.indexOf(nickname);
+      if (id > -1) {
+        data.splice(id, 1);
+        nick.splice(id, 1);
       }
       notifyChanges();
       console.log('-->', data);
@@ -54,19 +61,43 @@ function Viewers(sio) {
 var viewers = Viewers(sio);
 
 
+function Messages(sio) {
+  var data = [];
+
+  function notifyChanges() {
+    sio.emit('messages:updated', data);
+  }
+
+  return {
+    add: function add(nickname, message, color) {
+      data.push([nickname,message,color]);
+      notifyChanges();
+    }
+  };
+}
+
+
+var messages = Messages(sio);
+
 // @todo extract in its own
 sio.on('connection', function(socket) {
 
   // console.log('nouvelle connexion', socket.id);
   socket.on('viewer:new', function(nickname) {
     socket.nickname = nickname;
-    viewers.add(nickname);
-    console.log('new viewer with nickname %s', nickname, viewers);
+    socket.color = color[nickname.length%3]
+    viewers.add(nickname, socket.color );
+    console.log('new viewer with nickname %s', nickname);
+  });
+
+  socket.on('message:new', function(message) {
+    messages.add(socket.nickname ,message, socket.color);
+    console.log('new message from %s', socket.nickname);
   });
 
   socket.on('disconnect', function() {
     viewers.remove(socket.nickname);
-    console.log('viewer disconnected %s\nremaining:', socket.nickname, viewers);
+    console.log('viewer disconnected %s\nremaining:', socket.nickname);
   });
 
   socket.on('file:changed', function() {

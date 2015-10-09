@@ -11,13 +11,11 @@
   <body>
     <div class="container-fluid col-xs-9" id="history" ng-controller="HistoryCtrl as history">
       <div class="history">
-        <button type="button" class="btn btn-default" id="btnHide">Hide</button>
-        <button type="button" class="btn btn-default" id="btnShow">Show</button>
+        <button type="button" class="btn btn-info btn-xs btn-toogle col-xs-offset-11" id="btnHide">Hide Chat</button>
         <div class="row-fluid">
           <h4 class="col-xs-12">File History {{ history.visibility.states }}</h4>
           <notify-error></notify-error>
         </div><!-- /row -->
-
         <div class="row-fluid">
           <div ng-repeat="edit in history.edits" class="animate">
             <div class="line well ng-cloak">
@@ -52,12 +50,13 @@
             ... aucun historique... mais que fait le prof !
           </div>
         </div>
+
       </div><!-- / -->
   </div><!-- /container history-->
     <div class="container-fluid col-xs-3" id="chat" ng-controller="SocialCtrl as social">
         <div class="row chat">
             <div class="chatTitle">
-            <h4>Chat Filesync</h4>
+                <h4>Chat Filesync</h4>
             <hr>
             </div>
             <div class="messages">

@@ -26,15 +26,6 @@
     font-size: 13px;
 }
 
-.chat .ligne {
-    margin: 1px;
-    padding: 3px 6px;
-}
-
-.chat .ligne:nth-child(odd) {
-    background: #333;
-}
-
 .inp{
     width: 100%;
     box-sizing: border-box;

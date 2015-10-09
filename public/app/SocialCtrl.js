@@ -5,7 +5,7 @@ angular
     this.viewers = [];
     this.messages = [];
     this.message = '';
-    this.viewer = '';
+
 
     function onViewersUpdated(viewers) {
       this.viewers = viewers;
@@ -15,8 +15,10 @@ angular
     function onMessagesUpdated(messages) {
       this.messages = messages;
       $scope.$apply();
+      /* Use a directive
       var $cont = document.getElementById("chat");
       $cont.scrollTop = $cont.scrollHeight;
+      */
     }
 
     this.sendMessage = function() {

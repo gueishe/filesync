@@ -14,7 +14,7 @@
         <div class="col-xs-10">
           <div class="chat" id="chat">
             <div ng-repeat="message in social.messages track by $index" class="animate">
-              <div class="ligne"><font color="{{ message[2] }}" >{{ message[0] }} : </font> {{ message[1] }} </div>
+              <div class="line"><font color="{{ message.viewer.color }}" >{{ message.viewer.nickname }} : </font> {{ message.message }} </div>
             </div>
           </div>
           <form ng-submit="social.sendMessage()">
@@ -23,7 +23,7 @@
         </div>
         <div class="col-xs-2 viewers">
           <div ng-repeat="viewer in social.viewers" class="animate">
-            <div class="row"><font color="{{ viewer[0] }}">{{ viewer[1] }}</font></div>
+            <div class="row"><font color="{{ viewer.color }}">{{ viewer.nickname }}</font></div>
           </div>
         </div>
       </div>

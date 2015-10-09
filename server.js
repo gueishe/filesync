@@ -28,30 +28,22 @@ sio.set('authorization', function(handshakeData, accept) {
   accept(null, true);
 });
 
-var color=["RED","BLUE","GREEN"];
+var colors=["RED","BLUE","GREEN"];
 
 function Viewers(sio) {
   var data = [];
-  var nick = [];
 
   function notifyChanges() {
     sio.emit('viewers:updated', data);
   }
 
   return {
-    add: function add(nickname, color) {
-      data.push([color,nickname]);
-      nick.push(nickname);
+    add: function add(viewer) {
+      data.push(viewer);
       notifyChanges();
-      return data.length-1;
     },
-    remove: function remove(nickname) {
-      console.log("Removing " + nickname);
-      var id = nick.indexOf(nickname);
-      if (id > -1) {
-        data.splice(id, 1);
-        nick.splice(id, 1);
-      }
+    remove: function remove(viewer) {
+      data = data.filter((dataViewer) => dataViewer !== viewer );
       notifyChanges();
       console.log('-->', data);
     }
@@ -69,9 +61,9 @@ function Messages(sio) {
   }
 
   return {
-    add: function add(nickname, message, color) {
-      data.push([nickname,message,color]);
-      notifyChanges();
+    add: function add(viewer, message) {
+        data.push({viewer: viewer, message: message});
+        notifyChanges();
     }
   };
 }
@@ -84,19 +76,18 @@ sio.on('connection', function(socket) {
 
   // console.log('nouvelle connexion', socket.id);
   socket.on('viewer:new', function(nickname) {
-    socket.nickname = nickname;
-    socket.color = color[nickname.length%3]
-    viewers.add(nickname, socket.color );
+    socket.viewer = {nickname:nickname, color: colors[nickname.length%3]};
+    viewers.add(socket.viewer);
     console.log('new viewer with nickname %s', nickname);
   });
 
   socket.on('message:new', function(message) {
-    messages.add(socket.nickname ,message, socket.color);
+    messages.add(socket.viewer,message);
     console.log('new message from %s', socket.nickname);
   });
 
   socket.on('disconnect', function() {
-    viewers.remove(socket.nickname);
+    viewers.remove(socket.viewer);
     console.log('viewer disconnected %s\nremaining:', socket.nickname);
   });
 

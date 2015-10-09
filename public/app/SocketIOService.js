@@ -33,8 +33,8 @@ angular.module('FileSync')
         socket.on('viewers:updated', f);
       },
 
-      sendMessage: function(f) {
-        socket.emit('message:new', f);
+      sendMessage: function(message) {
+        socket.emit('message:new', message);
       },
 
       onMessagesUpdated: function(f) {

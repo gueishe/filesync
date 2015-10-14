@@ -17,6 +17,12 @@ angular.module('FileSync')
       });
     });
 
+    socket.on('viewer-err:name', function(nickname) {
+      console.log("Erreur sur le nom " + nickname + ".");
+      var login = prompt("Erreur sur le nom " + nickname + ".\nNew nickname?");
+      socket.emit('viewer:new', login);
+    });
+
     socket.on('users:visibility-states', function(states) {
       $timeout(function() {
         _onVisibilityStatesChanged(states);

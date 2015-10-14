@@ -46,6 +46,18 @@ function Viewers(sio) {
       data = data.filter((dataViewer) => dataViewer !== viewer );
       notifyChanges();
       console.log('-->', data);
+    },
+    isEmpty: function isEmpty() {
+        return data.length === 0;
+    },
+    containsNick: function containsNick(nick) {
+        if( this.isEmpty() ) {
+            return true;
+        } else if ( nick === "" ) {
+            return false;
+        } else {
+            return data.filter((viewer) => viewer.nickname === nick ).length === 0;
+        }
     }
   };
 }
@@ -76,9 +88,17 @@ sio.on('connection', function(socket) {
 
   // console.log('nouvelle connexion', socket.id);
   socket.on('viewer:new', function(nickname) {
-    socket.viewer = {nickname:nickname, color: colors[nickname.length%3]};
-    viewers.add(socket.viewer);
-    console.log('new viewer with nickname %s', nickname);
+      if ( nickname === "" ) {
+          console.log("viewer:name-empty");
+          sio.emit('viewer-err:name', nickname);
+      } else if( viewers.containsNick(nickname) ) {
+          socket.viewer = {nickname:nickname, color: colors[nickname.length%3]};
+          viewers.add(socket.viewer);
+          console.log('new viewer with nickname %s', nickname);
+      } else {
+          sio.emit('viewers-err:name', nickname);
+      }
+
   });
 
   socket.on('message:new', function(message) {

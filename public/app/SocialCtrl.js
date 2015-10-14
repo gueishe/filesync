@@ -5,6 +5,7 @@ angular
     this.viewers = [];
     this.messages = [];
     this.message = '';
+    var bannedWord = ["","*"," "];
 
 
     function onViewersUpdated(viewers) {
@@ -21,8 +22,21 @@ angular
       */
     }
 
+    function addBannedWord(word) {
+        this.bannedWord.push(word);
+    }
+
+    function isMsgOk(message) {
+        return bannedWord.filter((word) => word === message ).length === 0;
+    }
+
     this.sendMessage = function() {
-      SocketIOService.sendMessage(this.message);
+        if( isMsgOk(this.message) ){
+            SocketIOService.sendMessage(this.message);
+            this.message = "";
+        } else {
+            console.log("Mot interdit !" + bannedWord);
+        }
     }
 
     SocketIOService.onViewersUpdated(onViewersUpdated.bind(this));

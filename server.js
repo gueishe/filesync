@@ -83,7 +83,7 @@ sio.on('connection', function(socket) {
 
   socket.on('message:new', function(message) {
     messages.add(socket.viewer,message);
-    console.log('new message from %s', socket.nickname);
+    console.log('new message from %s', socket.viewer.nickname);
   });
 
   socket.on('disconnect', function() {

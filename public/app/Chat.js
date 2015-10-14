@@ -31,3 +31,20 @@ function show(button, content, content2) {
         button.innerHTML = "Hide Chat";
     }
 }
+
+function chatSubmit(idInputChat,idMessageChat) {
+    eraseInput(idInputChat);
+    downChat(idMessageChat);
+}
+
+function downChat(idMessageChat) {
+    setTimeout(function() {
+        var $cont = document.getElementById(idMessageChat);
+        $cont.scrollTop = $cont.scrollHeight;
+    } , 401);
+
+}
+
+function eraseInput(idInputChat) {
+    document.getElementById(idInputChat).value = "";
+}

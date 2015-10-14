@@ -53,11 +53,11 @@
 
       </div><!-- / -->
   </div><!-- /container history-->
-    <div class="container-fluid col-xs-3" id="chat" ng-controller="SocialCtrl as social">
-        <div class="row chat">
+    <div class="container-fluid col-xs-3 height" id="chat" ng-controller="SocialCtrl as social">
+        <div class="container-fluid chat">
             <div class="chatTitle">
                 <h4>Chat Filesync</h4>
-            <hr>
+                <hr>
             </div>
             <div class="messages">
             <div ng-repeat="message in social.messages track by $index" class="animate">
@@ -66,7 +66,7 @@
             </div>
             <div class="sendMessage">
                 <hr>
-                <form ng-submit="social.sendMessage()">
+                <form ng-submit="social.sendMessage()" class="height">
                     <input type="text" ng-model="social.message" class="inp"/>
                 </form>
             </div>

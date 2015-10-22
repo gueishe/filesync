@@ -53,7 +53,7 @@
 
       </div><!-- / -->
   </div><!-- /container history-->
-    <div class="container-fluid col-xs-3 height" ng-controller="SocialCtrl as social">
+    <div id="chat" class="container-fluid col-xs-3 height" ng-controller="SocialCtrl as social">
         <div class="container-fluid chat">
             <div class="chatTitle">
                 <h4>Chat Filesync</h4>
@@ -66,9 +66,14 @@
             </div>
             <div class="sendMessage">
                 <hr>
-                <form ng-submit="social.sendMessage()" onsubmit="chatSubmit('inputChat','chatMessages')" class="height">
-                    <input type="text" ng-model="social.message" class="form-control inp" id="inputChat"/>
-                </form>
+                <div class="input">
+                  <form ng-submit="social.sendMessage()" onsubmit="chatSubmit('inputChat','chatMessages')" class="height">
+                      <input type="text" ng-model="social.message" class="form-control inputChat" id="inputChat" placeholder="Envoyer un message"/>
+                  </form>
+                </div>
+                <div class="controlsInput">
+                  <span id="controlInputColor" class="glyphicon glyphicon-pencil controlInput" aria-hidden="true"></span>
+                </div>
             </div>
             <!-- <div class="col-xs-2 viewers">
               <div ng-repeat="viewer in social.viewers" class="animate">
@@ -77,6 +82,11 @@
           </div><!-- /viewers -->
       </div>
   </div><!-- /container chat-->
+  <div id="containerColor" class="controlColor jumbotron hidden">
+    <div ng-repeat="color in social.color track by $index">
+        <div class="colors">{{ color }}</div>
+    </div>
+  </div>
 
   <script src="/components/angular/angular.js" type="text/javascript"></script>
   <script src="/components/angular-animate/angular-animate.js" type="text/javascript"></script>

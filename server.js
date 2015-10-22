@@ -43,7 +43,9 @@ function Viewers(sio) {
       notifyChanges();
     },
     remove: function remove(viewer) {
-      data = data.filter((dataViewer) => dataViewer !== viewer );
+      data = data.filter( function(dataViewer) {
+        return dataViewer !== viewer
+      });
       notifyChanges();
       console.log('-->', data);
     },
@@ -56,7 +58,9 @@ function Viewers(sio) {
         } else if ( nick === "" ) {
             return false;
         } else {
-            return data.filter((viewer) => viewer.nickname === nick ).length === 0;
+            return data.filter( function(viewer) {
+              return viewer.nickname === nick;
+            }).length === 0;
         }
     }
   };

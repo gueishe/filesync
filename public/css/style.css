@@ -10,7 +10,7 @@ body {
 
 h4 {
     text-align: center;
-    color: #800080;
+    color: #6BACF6;
 }
 
 .height {
@@ -50,11 +50,40 @@ h4 {
     width: 100%;
 }
 
-.inp {
+.inputChat {
     width: 100%;
     height: 100%;
-    box-sizing: border-box;
+    border-radius: 0px;
 }
+
+.input {
+  width: 100%;
+  height: 65%;
+}
+
+.controlsInput {
+  padding-top: 4%;
+  padding-left: 5%;
+  width: 100%;
+  height: 100;
+}
+
+.controlInput {
+  color: #6BACF6;
+  cursor: pointer;
+}
+
+.controlColor {
+  background-color: white;
+  border: 0.1em solid lightgrey;
+  border-radius: 0px;
+  position: absolute;
+  left: 77%;
+  top: 55%;
+  width: 11%;
+  height: 30%;
+}
+
 
 
 

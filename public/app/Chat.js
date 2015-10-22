@@ -1,8 +1,9 @@
 var buttonClick = document.querySelector("#btnHide"),
+        buttonInputColor = document.querySelector("#controlInputColor"),
             chat = document.querySelector("#chat");
 
 buttonClick.addEventListener("click", function () {
-    var history = document.querySelector("#history")
+    var history = document.querySelector("#history");
     if( buttonClick.id === "btnHide" ) {
         hide(buttonClick, chat, history);
     } else if ( buttonClick.id === "btnShow" ) {
@@ -12,6 +13,12 @@ buttonClick.addEventListener("click", function () {
     }
 }, false);
 
+
+buttonInputColor.addEventListener("click", function () {
+  var containerColor = document.querySelector("#containerColor");
+  console.log(containerColor);
+  $(containerColor).toggleClass("hidden");
+}, false);
 
 function hide(button, content, content2) {
     if( content.className.indexOf("hidden") === -1 ) {

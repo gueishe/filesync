@@ -15,6 +15,7 @@ buttonClick.addEventListener("click", function () {
 
 
 buttonInputColor.addEventListener("click", function () {
+  $(buttonInputColor).toggleClass("active")
   var containerColor = document.querySelector("#containerColor");
   $(containerColor).toggleClass("hidden");
 }, false);

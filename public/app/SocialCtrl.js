@@ -5,7 +5,7 @@ angular
     this.viewers = [];
     this.messages = [];
     this.message = '';
-    this.color = '#6BACF6';
+    this.color = '';
     this.colors = ['RED','BLUE','BLACK','PURPLE','#6BACF6','#346398','#983455','#44AC34'];
     var bannedWord = ["","*"," "];
 
@@ -47,7 +47,6 @@ angular
 
     this.updateColor = function() {
       SocketIOService.updateColor(this.color);
-      this.color = "BLUE";
     }
 
     SocketIOService.onViewersUpdated(onViewersUpdated.bind(this));

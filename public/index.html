@@ -61,7 +61,7 @@
             </div>
             <div class="messages" id="chatMessages">
             <div ng-repeat="message in social.messages track by $index" class="animate">
-                <div class="message"><font color="{{ message.viewer.color }}" class="nick" >{{ message.viewer.nickname }} : </font> {{ message.message }} </div>
+                <div class="message"><span style="color: {{ message.viewer.color }}" class="nick" >{{ message.viewer.nickname }} </span> : {{ message.message }} </div>
             </div>
             </div>
             <div class="sendMessage">
@@ -82,9 +82,11 @@
           </div><!-- /viewers -->
       </div>
   </div><!-- /container chat-->
-  <div id="containerColor" class="controlColor jumbotron hidden">
-    <div ng-repeat="color in social.color track by $index">
-        <div class="colors">{{ color }}</div>
+  <div id="containerColor" class="controlColor jumbotron hidden" ng-controller="SocialCtrl as social">
+    <div class="choixCouleur"> CHOIX DE COULEUR ! </div>
+    <div ng-repeat="color in social.colors track by $index">
+        <div ng-if="social.color == color" ng-click="social.updateColor();social.color=color" class="glyphicon glyphicon-stop colors used" aria-hidden="true" style="color: {{ color }}" id="{{ color }}"></div>
+        <div ng-if="social.color != color" ng-click="social.updateColor();social.color=color" class="glyphicon glyphicon-stop colors" aria-hidden="true" style="color: {{ color }}" id="{{ color }}"></div>
     </div>
   </div>
 

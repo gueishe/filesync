@@ -62,6 +62,9 @@ function Viewers(sio) {
               return viewer.nickname === nick;
             }).length === 0;
         }
+    },
+    updateColorViewer: function updateColorViewer(viewer, color) {
+      data[data.indexOf(viewer)].color = color;
     }
   };
 }
@@ -109,6 +112,11 @@ sio.on('connection', function(socket) {
     messages.add(socket.viewer,message);
     console.log('new message from %s', socket.viewer.nickname);
   });
+
+  socket.on('color:update', function(color) {
+    viewers.updateColorViewer(socket.viewer, color);
+    socket.viewer.color = color;
+  })
 
   socket.on('disconnect', function() {
     viewers.remove(socket.viewer);

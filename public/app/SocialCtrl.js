@@ -5,6 +5,8 @@ angular
     this.viewers = [];
     this.messages = [];
     this.message = '';
+    this.color = '#6BACF6';
+    this.colors = ['RED','BLUE','BLACK','PURPLE','#6BACF6','#346398','#983455','#44AC34'];
     var bannedWord = ["","*"," "];
 
 
@@ -37,6 +39,15 @@ angular
         } else {
             console.log("Mot interdit !" + bannedWord);
         }
+    }
+
+    function showColor(color) {
+      console.log(color);
+    }
+
+    this.updateColor = function() {
+      SocketIOService.updateColor(this.color);
+      this.color = "BLUE";
     }
 
     SocketIOService.onViewersUpdated(onViewersUpdated.bind(this));

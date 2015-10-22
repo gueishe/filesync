@@ -43,6 +43,10 @@ angular.module('FileSync')
         socket.emit('message:new', message);
       },
 
+      updateColor: function(color) {
+        socket.emit('color:update', color)
+      },
+
       onMessagesUpdated: function(f) {
         socket.on('messages:updated', f);
       },

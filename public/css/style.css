@@ -2,10 +2,9 @@
   clear: both;
 }
 
-body {
-    height: 100vh;
-    margin: 0px;
-    background-color: WHITE;
+html, body {
+    height: 100%;
+    overflow: hidden;
 }
 
 h4 {
@@ -13,18 +12,17 @@ h4 {
     color: #6BACF6;
 }
 
-.height {
-    height: 100%;
-}
-
 .chatTitle {
     height: 10%;
 }
 
-.chat {
-    background-color: #FFFFF0;
+#chat {
+    background-color: #FAFBDA;
+    border-left: .1em solid #E9E9E9;
     height: 100%;
 }
+
+
 
 .hidden {
     visibility: hidden;
@@ -40,41 +38,28 @@ h4 {
   text-decoration: underline;
 }
 
-.history {
-    width: 100%;
-}
-
 .messages {
-    height: 70%;
+    height: 65%;
     overflow:auto;
 }
 
 .sendMessage {
-    height: 10%;
-    width: 100%;
+    height: 35%;
 }
 
 .inputChat {
-    width: 100%;
-    height: 100%;
     border-radius: 0px;
 }
 
-.input {
-  width: 100%;
-  height: 65%;
-}
-
 .controlsInput {
-  padding-top: 4%;
-  padding-left: 5%;
-  width: 100%;
-  height: 100;
+  padding-top: 1em;
 }
 
 .controlInput {
   color: #6BACF6;
+  padding: 0.3em 0.3em 0.3em 0.3em;
 }
+
 .controlInput:hover {
   box-shadow: inset 0px 0px 0em 0.5em rgba(134, 134, 134, 0.3);
   padding: 0.2em 0.2em 0.2em 0.2em;
@@ -83,35 +68,37 @@ h4 {
 }
 
 .controlColor {
-  display: flex;
-  flex-wrap: wrap;
   background-color: white;
   border: 0.1em solid lightgrey;
   border-radius: 0px;
   position: absolute;
-  left: 77%;
+  left: 76%;
   top: 55%;
-  width: 11%;
-  height: 30%;
+  width: 23%;
+  height: 23%;
 }
 
 .choixCouleur {
   color: grey;
   font-size: 90%;
   margin-left: 5%;
+  text-align: center;
+  padding-top: 1em;
 }
 
-
+.color {
+    font-size: 1.5em;
+    padding-right: 0.09em;
+}
 
 .colors {
-  font-size: 1.5em;
-  text-align: center;
+    display: inline-block;
 }
-.colors:hover {
-  box-shadow:inset 0px 0px 0px 0.3em lightgrey;
+
+.color:hover {
+  box-shadow:inset 0px 0px 0px 0.2em lightgrey;
   border-radius: 0.2em;
   padding-right: 0.09em;
-  padding-top: 0.05em;
   cursor: pointer;
 }
 
@@ -122,58 +109,12 @@ h4 {
 }
 
 .used {
-  box-shadow:inset 0px 0px 0px 0.3em grey;
+  box-shadow:inset 0px 0px 0px 0.2em lightgrey;
   border-radius: 0.2em;
   padding-right: 0.09em;
-  padding-top: 0.05em;
 }
 
 
-/*
-.bg-chat {
-  background: #255;
-  padding: 1px 1px;
-  border: 1px #222 solid;
-}
-
-.inp, .inp input, .viewers {
-    color: #DDD;
-    background: #222;
-    padding: 4px 6px;
-    border: 1px #222 solid;
-    font-family: Consolas, sans-serif;
-    font-size: 13px;
-}
-
-.inp, .inp input{
-    width: 100%;
-    box-sizing: border-box;
-}
-
-
-.message{
-  margin-bottom:10px;
-  padding: 4px;
-}
-
-  .message textarea{
-    width: 100%;
-    height:auto;
-  }
-
-  .message .cell{
-    padding:10px;
-    color: #333;
-  }
-
-  .message .filename{
-    font-weight: 500;
-  }
-
-  .message .options{
-    text-align: center;
-  }
-*/
 .animate.ng-enter,
 .animate.ng-leave {
     -webkit-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;

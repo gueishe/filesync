@@ -8,6 +8,9 @@ angular.module('FileSync')
     socket.on('connect', function() {
       console.log('connected');
       var login = prompt('Nickname?');
+      if(login == null) {
+          login = "";
+      }
       socket.emit('viewer:new', login);
     });
 
@@ -20,6 +23,9 @@ angular.module('FileSync')
     socket.on('viewer-err:name', function(nickname) {
       console.log("Erreur sur le nom " + nickname + ".");
       var login = prompt("Erreur sur le nom " + nickname + ".\nNew nickname?");
+      if(login == null) {
+          login = "";
+      }
       socket.emit('viewer:new', login);
     });
 
@@ -49,6 +55,22 @@ angular.module('FileSync')
 
       onMessagesUpdated: function(f) {
         socket.on('messages:updated', f);
+      },
+
+      botRoulette: function() {
+          socket.emit('bot:roulette');
+      },
+
+      botInfoCours: function() {
+          socket.emit('bot:info');
+      },
+
+      botUpdateInfo: function(newInfo) {
+          socket.emit('bot:updateInfo', newInfo);
+      },
+
+      botCommand: function() {
+          socket.emit('bot:command');
       },
 
       onFileChanged: function(f) {

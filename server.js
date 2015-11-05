@@ -42,6 +42,7 @@ function Viewers(sio) {
       data.push(viewer);
       notifyChanges();
     },
+
     remove: function remove(viewer) {
       data = data.filter( function(dataViewer) {
         return dataViewer !== viewer
@@ -49,9 +50,11 @@ function Viewers(sio) {
       notifyChanges();
       console.log('-->', data);
     },
+
     isEmpty: function isEmpty() {
         return data.length === 0;
     },
+
     containsNick: function containsNick(nick) {
         if( this.isEmpty() ) {
             return true;
@@ -63,9 +66,15 @@ function Viewers(sio) {
             }).length === 0;
         }
     },
+
     updateColorViewer: function updateColorViewer(viewer, color) {
       data[data.indexOf(viewer)].color = color;
+    },
+
+    getRandomViewer: function getRandomViewer() {
+        return data[ Math.floor(( Math.random() * (data.length) )) ].nickname;
     }
+
   };
 }
 
@@ -83,12 +92,49 @@ function Messages(sio) {
     add: function add(viewer, message) {
         data.push({viewer: viewer, message: message});
         notifyChanges();
+    },
+
+    getData: function getData() {
+        return data;
     }
   };
 }
 
-
 var messages = Messages(sio);
+
+function Bot(sio) {
+    var infoCours = "Pas encore d\'information sur le cours actuel.";
+    var botViewer = {nickname: 'JbotS', color: 'PINK'};
+    var botSys = {nickname: 'INFO', color: 'lightgrey'};
+    var commands = "!bot roulette@Utile pour designer quelqu\'un !|!bot infoCours@Permet d\'avoir des informations sur le cours";
+
+    return {
+        updateInfo: function updateInfo(newInfo) {
+            infoCours = newInfo;
+            messages.add(botSys, infoCours);
+        },
+
+        roulette: function roulette() {
+            messages.add(botSys,'La roulette est lancée !');
+            messages.add(botViewer,'Le viewer choisie est ' + viewers.getRandomViewer() );
+        },
+
+        info: function info() {
+            messages.add(botSys, infoCours);
+        },
+
+        command: function command() {
+            var command = commands.split('|');
+            messages.add(botSys, 'Liste des commandes disponible : ');
+            command.forEach(function(info) {
+                var tabInfo = info.split('@');
+                messages.add({nickname: tabInfo[0], color: 'PINK'}, tabInfo[1]);
+            });
+        }
+    }
+}
+
+var bot = Bot(sio);
 
 // @todo extract in its own
 sio.on('connection', function(socket) {
@@ -116,11 +162,27 @@ sio.on('connection', function(socket) {
   socket.on('color:update', function(color) {
     viewers.updateColorViewer(socket.viewer, color);
     socket.viewer.color = color;
-  })
+  });
+
+  socket.on('bot:command', function() {
+      bot.command();
+  });
+
+  socket.on('bot:roulette', function() {
+      bot.roulette();
+  });
+
+  socket.on('bot:info', function() {
+      bot.info();
+  });
+
+  socket.on('bot:updateInfo', function(newInfo) {
+      bot.updateInfo(newInfo);
+  });
 
   socket.on('disconnect', function() {
     viewers.remove(socket.viewer);
-    console.log('viewer disconnected %s\nremaining:', socket.nickname);
+    console.log('viewer disconnected %s\nremaining:', socket.viewer.nickname);
   });
 
   socket.on('file:changed', function() {

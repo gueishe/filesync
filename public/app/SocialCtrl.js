@@ -18,26 +18,44 @@ angular
     function onMessagesUpdated(messages) {
       this.messages = messages;
       $scope.$apply();
-      /* Use a directive
-      var $cont = document.getElementById("chat");
-      $cont.scrollTop = $cont.scrollHeight;
-      */
     }
 
     function addBannedWord(word) {
         this.bannedWord.push(word);
     }
 
-    function isMsgOk(message) {
-        return bannedWord.filter((word) => word === message ).length === 0;
+    function isMsgOk(msg) {
+        return bannedWord.filter((word) => word === msg ).length === 0;
+    }
+
+    function isMsgToBot(msg) {
+        return msg.search('!bot') == 0;
+    }
+
+    function newMsgToBot(msg) {
+        var command = msg.split(' ');
+        switch( command[1] ) {
+            case 'roulette':
+                SocketIOService.botRoulette();
+            break;
+            case 'infoCours':
+                SocketIOService.botInfoCours();
+            break;
+            case 'command':
+                SocketIOService.botCommand();
+            break;
+        }
     }
 
     this.sendMessage = function() {
-        if( isMsgOk(this.message) ){
-            SocketIOService.sendMessage(this.message);
-            this.message = "";
+        var msg = this.message;
+        if ( isMsgToBot(msg) ) {
+            newMsgToBot(msg);
+        } else if ( isMsgOk(msg) ) {
+            SocketIOService.sendMessage(msg);
+            this.message = '';
         } else {
-            console.log("Mot interdit !" + bannedWord);
+            console.log('Mot interdit !' + bannedWord);
         }
     }
 

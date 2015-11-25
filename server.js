@@ -20,7 +20,10 @@ var server = app.listen(config.server.port, function () {
 });
 
 
+
 var sio = io(server);
+
+
 
 sio.set('authorization', function (handshakeData, accept) {
 	// @todo use something else than a private `query`
@@ -74,8 +77,15 @@ function Viewers(sio) {
 
 		getRandomViewer: function getRandomViewer() {
 			return data[Math.floor((Math.random() * (data.length)))].nickname;
-		}
+		},
 
+		getCountViewer: function getCountViewer() {
+			return data.length;
+		},
+
+		getViewers: function getViewers() {
+			return data;
+		}
 	};
 }
 
@@ -226,3 +236,35 @@ function getVisibilityCounts() {
 		.countBy('visibility')
 		.value();
 }
+
+
+var readline = require('readline');
+var rl = readline.createInterface({
+	input: process.stdin,
+	output: process.stdout
+});
+rl.on('line', function (line) {
+	switch(line.trim()) {
+	case 'command':
+		console.log('servinfo');
+		console.log('viewerCount');
+		console.log('viewers');
+		console.log('messages');
+		break;
+	case 'servinfo':
+		console.log(sio);
+		break;
+	case 'viewerCount':
+		console.log(viewers.getCountViewer());
+		break;
+	case 'viewers':
+		console.log(viewers.getViewers());
+		break;
+	case 'messages':
+		console.log(messages.getData());
+		break;
+	default:
+		break;
+	}
+	rl.prompt();
+});

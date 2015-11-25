@@ -172,6 +172,10 @@ sio.on('connection', function (socket) {
 				color: colors[nickname.length % 3]
 			};
 			viewers.add(socket.viewer);
+			messages.add({
+				nickname: "connexion",
+				color: "GREY"
+			}, "" + nickname);
 			logger.info('new viewer with nickname %s', nickname);
 		} else {
 			console.log("viewer:name-already-taken");
@@ -208,7 +212,11 @@ sio.on('connection', function (socket) {
 
 	socket.on('disconnect', function () {
 		viewers.remove(socket.viewer);
-		logger.info('viewer disconnected %s\nremaining: ' + viewers.getViewers(), socket.viewer.nickname);
+		messages.add({
+			nickname: "déconnexion",
+			color: "GREY"
+		}, "" + socket.viewer.nickname);
+		logger.info('viewer disconnected %s', socket.viewer.nickname);
 	});
 
 	socket.on('file:changed', function () {

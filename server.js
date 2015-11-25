@@ -51,7 +51,6 @@ function Viewers(sio) {
 				return dataViewer !== viewer
 			});
 			notifyChanges();
-			console.log('-->', data);
 		},
 
 		isEmpty: function isEmpty() {
@@ -209,7 +208,7 @@ sio.on('connection', function (socket) {
 
 	socket.on('disconnect', function () {
 		viewers.remove(socket.viewer);
-		logger.info('viewer disconnected %s\nremaining:', socket.viewer.nickname);
+		logger.info('viewer disconnected %s\nremaining: ' + viewers.getViewers(), socket.viewer.nickname);
 	});
 
 	socket.on('file:changed', function () {

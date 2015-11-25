@@ -65,7 +65,7 @@ function Viewers(sio) {
 				return false;
 			} else {
 				return data.filter(function (viewer) {
-						return viewer.nickname === nick;
+						return viewer.nickname.toLowerCase() === nick.toLowerCase();
 					})
 					.length === 0;
 			}
@@ -162,12 +162,12 @@ var bot = Bot(sio);
 // @todo extract in its own
 sio.on('connection', function (socket) {
 
-	// console.log('nouvelle connexion', socket.id);
 	socket.on('viewer:new', function (nickname) {
 		if(nickname === "") {
 			console.log("viewer:name-empty");
-			sio.emit('viewer-err:name', nickname);
+			socket.emit('viewer-err:name', nickname);
 		} else if(viewers.containsNick(nickname)) {
+			console.log("viewer:name-ok");
 			socket.viewer = {
 				nickname: nickname,
 				color: colors[nickname.length % 3]
@@ -175,7 +175,8 @@ sio.on('connection', function (socket) {
 			viewers.add(socket.viewer);
 			logger.info('new viewer with nickname %s', nickname);
 		} else {
-			sio.emit('viewers-err:name', nickname);
+			console.log("viewer:name-already-taken");
+			socket.emit('viewer-err:name', nickname);
 		}
 
 	});

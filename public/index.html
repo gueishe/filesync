@@ -51,9 +51,10 @@
         <hr>
       </div>
       <div class="messages" id="chatMessages">
-        <div ng-repeat="message in social.messages track by $index" class="animate">
+        <div ng-repeat="message in social.messages track by $index" class="animate test">
           <div class="message">
-            <span style="color: {{ message.viewer.color }}" class="nick">{{ message.viewer.nickname }}</span>: {{ message.message }} </div>
+            <span style="color: {{ message.viewer.color }}" class="nick">{{ message.viewer.nickname }}</span>: {{ message.message }}
+          </div>
         </div>
       </div>
       <div class="sendMessage">

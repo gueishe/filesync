@@ -93,13 +93,21 @@ var viewers = Viewers(sio);
 
 function Messages(sio) {
 	var data = [];
+	var maxMessages = 5;
 
 	function notifyChanges() {
 		sio.emit('messages:updated', data);
 	}
 
+	function full() {
+		return data.length == maxMessages;
+	}
+
 	return {
 		add: function add(viewer, message) {
+			if(full()) {
+				data.shift();
+			}
 			data.push({
 				viewer: viewer,
 				message: message
@@ -109,6 +117,14 @@ function Messages(sio) {
 
 		getData: function getData() {
 			return data;
+		},
+
+		getMaxMessages: function getMaxMessages() {
+			return maxMessages;
+		},
+
+		setMaxMessages: function setMaxMessages(newMax) {
+			maxMessages = newMax;
 		}
 	};
 }
@@ -119,18 +135,17 @@ function Bot(sio) {
 	var infoCours = "Pas encore d\'information sur le cours actuel.";
 	var botViewer = {
 		nickname: 'JbotS',
-		color: 'PINK'
+		color: '#FF0077'
 	};
 	var botSys = {
 		nickname: 'INFO',
-		color: 'lightgrey'
+		color: '#AA00FF'
 	};
 	var commands = "!bot roulette@Utile pour designer quelqu\'un !|!bot infoCours@Permet d\'avoir des informations sur le cours";
 
 	return {
 		updateInfo: function updateInfo(newInfo) {
 			infoCours = newInfo;
-			messages.add(botSys, infoCours);
 		},
 
 		roulette: function roulette() {
@@ -149,7 +164,7 @@ function Bot(sio) {
 				var tabInfo = info.split('@');
 				messages.add({
 					nickname: tabInfo[0],
-					color: 'PINK'
+					color: '#FF0077'
 				}, tabInfo[1]);
 			});
 		}
@@ -252,12 +267,14 @@ var rl = readline.createInterface({
 	output: process.stdout
 });
 rl.on('line', function (line) {
-	switch(line.trim()) {
+	var res = line.split(' ');
+	switch(res[0]) {
 	case 'command':
-		console.log('servinfo');
-		console.log('viewerCount');
-		console.log('viewers');
-		console.log('messages');
+		console.log('---COMMANDES---')
+		console.log('    servinfo');
+		console.log('    viewerCount');
+		console.log('    viewers');
+		console.log('    messages');
 		break;
 	case 'servinfo':
 		console.log(sio);
@@ -271,7 +288,23 @@ rl.on('line', function (line) {
 	case 'messages':
 		console.log(messages.getData());
 		break;
+	case 'setMaxMessages':
+		if(res[1]) {
+			messages.setMaxMessages(res[1]);
+		}
+		console.log('Maximum de messages dans le chat :' + res[1]);
+		break;
+	case 'getMaxMessages':
+		console.log('Maximum de messages dans le chat : ' + messages.getMaxMessages());
+		break;
 	default:
+		console.log('---COMMANDES---')
+		console.log('    servinfo');
+		console.log('    viewerCount');
+		console.log('    viewers');
+		console.log('    messages');
+		console.log('    setMaxMessages [number]');
+		console.log('    getMaxMessages');
 		break;
 	}
 	rl.prompt();

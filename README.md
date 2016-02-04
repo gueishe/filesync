@@ -6,13 +6,13 @@ This is a **proof of concept** AND **a work in progress**, don't share the word,
 # Motivation
 
 > “We are in 2015 and my students still have to copy what I wrote on a screen while I teach them something. This is a long and tedious process that slow down the lectures.
-> 
+>
 > Google Document-like tools should NEVER be used for sharing code, we want syntax highlighting and static analysis not copy/pasting code inside an online document each time we make a change.
-> 
+>
 > Online IDEs are NOT a solution. I have my own finely tuned editor, my students have theirs, we don't want to temporarily trade our workflow comfort for a lecture.
-> 
+>
 > Both solution are stupid.
-> 
+>
 > I want a tool that will allow each students to retrieve in real-time my edits while keeping their own local modifications. This tool will work with any editor/IDE because we sync at the file-system level. Each modifications will be display in an history log and would be either merged locally or dropped definitely.”
 
 > — 03/06/2015
@@ -42,3 +42,17 @@ See [issues](https://github.com/FGRibreau/filesync/issues) there is still a lot 
 ## Bonus
 
 Since this tool is primary build for teaching, it will also display the number of students that don't currently have the page on focus using HTML5 Page Visibility API. (But yeah they can always open another browser window, in the end that feature was mainly developed for fun...)
+
+
+## Malory Martin
+
+Projet :
+J'ai crée un système de chat.
+Un "bot" pour donner des informations à tous les utilisateurs. (Informations sur le cours, un système de roulette, nombre de Viewers, etc ..)
+
+Problème rencontré :
+Pas de gros problèmes rencontré pour ce projet.
+
+Remarque :
+J'ai énormement appris sur AngularJS et Node.js, ce qui m'a permis de me rendre compte de la puissance de ces téchnologies.
+J'aurai pu répartir les objets "Messages", "Viewers" et "Bot" dans un autre fichier que Server.js

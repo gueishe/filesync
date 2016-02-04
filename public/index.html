@@ -53,6 +53,7 @@
       <div class="messages" id="chatMessages">
         <div ng-repeat="message in social.messages track by $index" class="animate test">
           <div class="message">
+            {{ message.time }}
             <span style="color: {{ message.viewer.color }}" class="nick">{{ message.viewer.nickname }}</span>: {{ message.message }}
           </div>
         </div>
@@ -83,7 +84,7 @@
     <script src="/components/angular-animate/angular-animate.js" type="text/javascript"></script>
     <script src="/components/highlightjs/highlight.pack.js" type="text/javascript"></script>
     <script src="/components/angular-highlightjs/angular-highlightjs.js" type="text/javascript"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" type="text/javascript"></script>
+    <script src="/components/jquery/dist/jquery.js" type="text/javascript"></script>
 
     <script src="/components/moment/moment.js" type="text/javascript"></script>
     <script src="/components/lodash/lodash.js" type="text/javascript"></script>

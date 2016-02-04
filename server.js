@@ -23,15 +23,12 @@ var server = app.listen(config.server.port, function () {
 
 var sio = io(server);
 
-
-
+var colors = ['RED', 'BLUE', 'GREEN'];
 sio.set('authorization', function (handshakeData, accept) {
 	// @todo use something else than a private `query`
 	handshakeData.isAdmin = handshakeData._query.access_token === config.auth.token;
 	accept(null, true);
 });
-
-var colors = ["RED", "BLUE", "GREEN"];
 
 function Viewers(sio) {
 	var data = [];
@@ -90,7 +87,6 @@ function Viewers(sio) {
 
 var viewers = Viewers(sio);
 
-
 function Messages(sio) {
 	var data = [];
 	var maxMessages = 5;
@@ -104,11 +100,12 @@ function Messages(sio) {
 	}
 
 	return {
-		add: function add(viewer, message) {
+		add: function add(time, viewer, message) {
 			if(full()) {
 				data.shift();
 			}
 			data.push({
+				time: time,
 				viewer: viewer,
 				message: message
 			});
@@ -149,20 +146,26 @@ function Bot(sio) {
 		},
 
 		roulette: function roulette() {
-			messages.add(botSys, 'La roulette est lancée !');
-			messages.add(botViewer, 'Le viewer choisie est ' + viewers.getRandomViewer());
+			var date = new Date();
+			date = date.getHours() + ":" + date.getMinutes();
+			messages.add(date, botSys, 'La roulette est lancée !');
+			messages.add(date, botViewer, 'Le viewer choisie est ' + viewers.getRandomViewer());
 		},
 
 		info: function info() {
-			messages.add(botSys, infoCours);
+			var date = new Date();
+			date = date.getHours() + ":" + date.getMinutes();
+			messages.add(date, botSys, infoCours);
 		},
 
 		command: function command() {
+			var date = new Date();
+			date = date.getHours() + ":" + date.getMinutes();
 			var command = commands.split('|');
-			messages.add(botSys, 'Liste des commandes disponible : ');
+			messages.add(date, botSys, 'Liste des commandes disponible : ');
 			command.forEach(function (info) {
 				var tabInfo = info.split('@');
-				messages.add({
+				messages.add(date, {
 					nickname: tabInfo[0],
 					color: '#FF0077'
 				}, tabInfo[1]);
@@ -187,7 +190,9 @@ sio.on('connection', function (socket) {
 				color: colors[nickname.length % 3]
 			};
 			viewers.add(socket.viewer);
-			messages.add({
+			var date = new Date();
+			date = date.getHours() + ":" + date.getMinutes();
+			messages.add(date, {
 				nickname: "connexion",
 				color: "GREY"
 			}, "" + nickname);
@@ -199,8 +204,8 @@ sio.on('connection', function (socket) {
 
 	});
 
-	socket.on('message:new', function (message) {
-		messages.add(socket.viewer, message);
+	socket.on('message:new', function (time, message) {
+		messages.add(time, socket.viewer, message);
 		logger.info('new message from %s', socket.viewer.nickname);
 	});
 
@@ -227,11 +232,15 @@ sio.on('connection', function (socket) {
 
 	socket.on('disconnect', function () {
 		viewers.remove(socket.viewer);
-		messages.add({
-			nickname: "déconnexion",
-			color: "GREY"
-		}, "" + socket.viewer.nickname);
-		logger.info('viewer disconnected %s', socket.viewer.nickname);
+		var date = new Date();
+		date = date.getHours() + ":" + date.getMinutes();
+		if(socket.viewer) {
+			messages.add(date, {
+				nickname: "déconnexion",
+				color: "GREY"
+			}, "" + socket.viewer.nickname);
+			logger.info('viewer disconnected %s', socket.viewer.nickname);
+		}
 	});
 
 	socket.on('file:changed', function () {

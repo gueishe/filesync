@@ -45,8 +45,8 @@ angular.module('FileSync')
 				socket.on('viewers:updated', f);
 			},
 
-			sendMessage: function (message) {
-				socket.emit('message:new', message);
+			sendMessage: function (time, message) {
+				socket.emit('message:new', time, message);
 			},
 
 			updateColor: function (color) {

@@ -59,7 +59,8 @@ angular
 			if(isMsgToBot(msg)) {
 				newMsgToBot(msg);
 			} else if(isMsgOk(msg)) {
-				SocketIOService.sendMessage(msg);
+				SocketIOService.sendMessage(moment()
+					.format('h:mm'), msg);
 				this.message = '';
 			} else {
 				console.log('Mot interdit !' + bannedWord);

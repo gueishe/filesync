@@ -9,16 +9,32 @@ angular
 		this.colors = ['RED', 'BLUE', 'BLACK', 'PURPLE', '#6BACF6', '#346398', '#983455', '#44AC34'];
 		var bannedWord = ["", "*", " "];
 
+		$.getJSON('https://api.embedly.com/1/oembed?' + $.param({
+				url: 'https://www.youtube.com/watch?v=jofNR_WkoCE',
+				key: "bd58735dfd4a49ea8d5efa0630ccb369",
+				maxwidth: "100"
+			}),
+			function (data, status) {
+				if(status !== 'success') {
+					console.log(status);
+					return status;
+				}
+				$scope.embed = data.html;
+			});
+
+		$scope.nick = "Malo";
 
 		function onViewersUpdated(viewers) {
 			this.viewers = viewers;
 			$scope.$apply();
 		}
+		SocketIOService.onViewersUpdated(onViewersUpdated.bind(this));
 
 		function onMessagesUpdated(messages) {
 			this.messages = messages;
 			$scope.$apply();
 		}
+		SocketIOService.onMessagesUpdated(onMessagesUpdated.bind(this));
 
 		function addBannedWord(word) {
 			this.bannedWord.push(word);
@@ -54,6 +70,10 @@ angular
 			}
 		}
 
+		var key = "bd58735dfd4a49ea8d5efa0630ccb369";
+
+
+
 		this.sendMessage = function () {
 			var msg = this.message;
 			if(isMsgToBot(msg)) {
@@ -75,6 +95,9 @@ angular
 			SocketIOService.updateColor(this.color);
 		}
 
-		SocketIOService.onViewersUpdated(onViewersUpdated.bind(this));
-		SocketIOService.onMessagesUpdated(onMessagesUpdated.bind(this));
-  }]);
+			}])
+	.directive("embed", function () {
+		return {
+			template: '{{nick}} : {{embed}}'
+		};
+	});

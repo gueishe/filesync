@@ -17,6 +17,7 @@
                     {{ history.visibility.states }}</h4>
                 <notify-error></notify-error>
             </div>
+            <!-- /row -->
             <div class="row-fluid">
                 <div ng-repeat="edit in history.edits" class="animate">
                     <div class="line well ng-cloak">
@@ -37,22 +38,26 @@
                             </div>
                         </div>
                     </div>
+                    <!-- /line -->
                 </div>
                 <div class="col-xs-12 alert alert-info" ng-if="history.edits.length === 0" class="animate">
                     ... aucun historique... mais que fait le prof !
                 </div>
             </div>
-            <div id="chat" class="container-fluid col-xs-3 chat" ng-controller="SocialCtrl as social"></div>
+        </div>
+        <!-- /container history-->
+        <div id="chat" class="container-fluid col-xs-3 chat" ng-controller="SocialCtrl as social">
             <div class="chatTitle">
                 <h4>Chat Filesync</h4>
                 <hr>
             </div>
-            <div ng-repeat="viewer in social.viewers | orderBy:'-time'" class="animate">
-                <div class="viewer">
-                    {{viewer.nickname}}
-                    :
-                    {{viewer.time}}
-                    s
+            <div class="messages" id="chatMessages">
+                <div ng-repeat="message in social.messages track by $index" class="animate test">
+                    <div class="message">
+                        {{ message.time }}
+                        <span style="color: {{ message.viewer.color }}" class="nick">{{ message.viewer.nickname }}</span>:
+                        {{ message.message }}
+                    </div>
                 </div>
             </div>
             <div class="sendMessage">
@@ -67,6 +72,7 @@
                 </div>
             </div>
         </div>
+        <!-- /container chat-->
         <div id="containerColor" class="controlColor hidden" ng-controller="SocialCtrl as social">
             <div class="choixCouleur">
                 CHOIX DE COULEUR !

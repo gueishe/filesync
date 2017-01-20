@@ -20,7 +20,7 @@ var messages = function (serverSocket) {
 			});
 		},
 
-		getData: function getData() {
+		getMessages: function getMessages() {
 			return data;
 		},
 

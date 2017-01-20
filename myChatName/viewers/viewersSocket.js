@@ -4,8 +4,19 @@ var viewersEvents = function (serverSocket, viewers) {
 
 	var colors = ['RED', 'GREEN', 'BLUE'];
 
-	function _notify(data) {
+	function _notifyViewers() {
+		var data = serverSocket.modules['viewers'].methods.getViewers();
 		serverSocket.emit('viewers:updated', data);
+	}
+
+	function _notifyMessages() {
+		var data = serverSocket.modules['messages'].methods.getMessages();
+		serverSocket.emit('messages:updated', data);
+	}
+
+	function _notify() {
+		_notifyViewers();
+		_notifyMessages();
 	}
 
 	return {
@@ -40,7 +51,7 @@ var viewersEvents = function (serverSocket, viewers) {
 			clientSocket.on('color:update', function (color) {
 				viewers.updateColorViewer(clientSocket.viewer, color);
 				clientSocket.viewer.color = color;
-				_notify();
+				_notifyViewers();
 			});
 		}
 	};

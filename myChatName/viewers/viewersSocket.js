@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require("lodash");
+
 var viewersEvents = function (serverSocket, viewers) {
 
 	var colors = ['RED', 'GREEN', 'BLUE'];
@@ -17,6 +19,14 @@ var viewersEvents = function (serverSocket, viewers) {
 	function _notify() {
 		_notifyViewers();
 		_notifyMessages();
+	}
+
+	function getVisibilityCounts() {
+		console.log("getVisibilityCounts call");
+		return _.chain(serverSocket.sockets.sockets)
+			.values()
+			.countBy('visibility')
+			.value();
 	}
 
 	return {
@@ -52,6 +62,20 @@ var viewersEvents = function (serverSocket, viewers) {
 				viewers.updateColorViewer(clientSocket.viewer, color);
 				clientSocket.viewer.color = color;
 				_notifyViewers();
+			});
+
+			clientSocket.on('file:changed', function () {
+				console.log("file:changed call");
+				if(!clientSocket.conn.request.isAdmin) {
+					return clientSocket.emit('error:auth', 'Unauthorized :)');
+				}
+				serverSocket.emit.apply(serverSocket, ['file:changed'].concat(_.toArray(arguments)));
+			});
+			clientSocket.visibility = 'visible';
+			clientSocket.on('user-visibility:changed', function (state) {
+				clientSocket.visibility = state;
+				clientSocket.viewer = viewers.updateTime(clientSocket.viewer, state);
+				serverSocket.emit('users:visibility-states', getVisibilityCounts());
 			});
 		}
 	};

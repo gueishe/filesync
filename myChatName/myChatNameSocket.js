@@ -1,6 +1,14 @@
 'use strict';
 
+var logger = require('winston');
+var config = require('../config')(logger);
+
 var myChatNameSocket = function (serverSocket) {
+
+	serverSocket.set('authorization', function (handshakeData, accept) {
+		handshakeData.isAdmin = handshakeData._query.access_token === config.auth.token;
+		accept(null, true);
+	});
 
 	var socketsModule = {};
 

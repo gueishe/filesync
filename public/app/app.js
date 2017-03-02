@@ -1,8 +1,25 @@
-/*globals io, Visibility, _ */
-'use strict';
-angular.module('FileSync', ['ngAnimate', 'hljs']);
+(function () {
+	const app = angular.module('filesync', [
+		'ui.router',
+		'ngAnimate',
+		'hljs',
+		'filesync.chat',
+		'filesync.history'
+	]);
 
-angular.module('FileSync')
-  .constant('io', io)
-  .constant('Visibility', Visibility)
-  .constant('_', _);
+	app.constant('io', io)
+		.constant('Visibility', Visibility)
+		.constant('_', _);
+
+	app.config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
+
+		$locationProvider.html5Mode(true);
+		$stateProvider.state('index', {
+			url: '/',
+			templateUrl: 'public/index.html'
+		});
+
+		$urlRouterProvider.otherwise('/');
+	});
+
+})();

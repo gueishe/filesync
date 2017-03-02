@@ -1,38 +1,55 @@
 {
-  "name": "filesync",
-  "version": "2.2.0",
-  "description": "[WorkInProgress - ProofOfConcept] Unidirectional 1-N file syncing with history and local merging",
-  "scripts": {
-    "start": "node server.js",
-    "postinstall": "./node_modules/.bin/bower install",
-    "prepublish": "[ -r ~/.global.npmignore ] && cat ~/.global.npmignore > .npmignore;cat .gitignore >> .npmignore;"
-  },
-  "bin": {
-    "filesync-relay": "./bin/filesync-relay",
-    "filesync-server": "./bin/filesync-server"
-  },
-  "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
-  "bugs": {
-    "url": "https://github.com/FGRibreau/filesync/issues"
-  },
-  "homepage": "https://github.com/FGRibreau/filesync",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/FGRibreau/filesync.git"
-  },
-  "license": "MIT",
-  "dependencies": {
-    "async": "1.*.*",
-    "body-parser": "^1.12.0",
-    "bower": "^1.3.12",
-    "common-env": "4.*.*",
-    "express": "^4.12.2",
-    "gaze": "^0.5.1",
-    "lodash": "^3.3.1",
-    "mongodb": "^2.2.22",
-    "mongoose": "^4.8.1",
-    "socket.io": "^1.3.5",
-    "socket.io-client": "^1.3.5",
-    "winston": "1.*.*"
-  }
+    "name": "filesync",
+    "version": "2.2.0",
+    "description": "[WorkInProgress - ProofOfConcept] Unidirectional 1-N file syncing with history and local merging",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "bin": {
+        "filesync-relay": "./bin/filesync-relay",
+        "filesync-server": "./bin/filesync-server"
+    },
+    "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
+    "bugs": {
+        "url": "https://github.com/FGRibreau/filesync/issues"
+    },
+    "homepage": "https://github.com/FGRibreau/filesync",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/FGRibreau/filesync.git"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "async": "1.*.*",
+        "body-parser": "^1.12.0",
+        "bower": "^1.3.12",
+        "common-env": "4.*.*",
+        "express": "^4.12.2",
+        "gaze": "^0.5.1",
+        "lodash": "^3.3.1",
+        "mongodb": "^2.2.22",
+        "mongoose": "^4.8.1",
+        "socket.io": "^1.3.5",
+        "socket.io-client": "^1.3.5",
+        "winston": "1.*.*",
+        "browser-sync": "2.10.1",
+        "connect-history-api-fallback": "^1.2.0",
+        "gulp": "^3.9.1",
+        "gulp-concat": "2.6.0",
+        "gulp-inject": "^4.1.0",
+        "gulp-ng-annotate": "2.0.0",
+        "gulp-ng-config": "^1.3.1",
+        "gulp-ng-html2js": "^0.2.2",
+        "gulp-rename": "1.2.2",
+        "gulp-sourcemaps": "1.6.0",
+        "gulp-uglify": "1.5.1",
+        "url": "0.11.0",
+        "wiredep": "^4.0.0",
+        "proxy-middleware": "0.15.0"
+    },
+    "devDependencies": {
+        "gulp-jshint": "^2.0.1",
+        "jshint": "^2.9.4",
+        "jshint-stylish": "^2.2.1"
+    }
 }

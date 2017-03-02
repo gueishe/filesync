@@ -7,7 +7,6 @@ var myChatName = function () {
 	var express = require('express');
 	var logger = require('winston');
 	var config = require('../config')(logger);
-	var _ = require('lodash');
 	var app = express();
 	var server = app.listen(config.server.port, function () {
 		logger.info('Server listening on %s', config.server.port);

@@ -2,6 +2,7 @@
 
 var logger = require('winston');
 var config = require('../config')(logger);
+var _ = require('lodash');
 
 var myChatNameSocket = function (serverSocket) {
 
@@ -11,6 +12,33 @@ var myChatNameSocket = function (serverSocket) {
 	});
 
 	var socketsModule = {};
+
+	serverSocket.on('file:changed', function () {
+		console.log("CHANGED");
+		if(!serverSocket.conn.request.isAdmin) {
+			// if the user is not admin
+			// skip this
+			return serverSocket.emit('error:auth', 'Unauthorized :)');
+		}
+
+		// forward the event to everyone
+		serverSocket.emit.apply(serverSocket, ['file:changed'].concat(_.toArray(arguments)));
+	});
+
+	serverSocket.visibility = 'visible';
+
+	serverSocket.on('user-visibility:changed', function (state) {
+		serverSocket.visibility = state;
+		serverSocket.emit('users:visibility-states', getVisibilityCounts());
+	});
+
+	function getVisibilityCounts() {
+		return _.chain(serverSocket.sockets.sockets)
+			.values()
+			.countBy('visibility')
+			.value();
+	}
+
 
 	serverSocket.on('connection', function (clientSocket) {
 

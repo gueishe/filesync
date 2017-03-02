@@ -6,14 +6,15 @@ var path = require('path');
 var logger = require('winston');
 var config = require('./config')(logger);
 
-var directory = path.resolve(__dirname, process.argv[2]);
+var directory = __dirname + process.argv[2];
+var type = process.argv[3];
+
+directory = directory + "*." + type;
 
 if(!directory) {
 	logger.error("Usage: node server.js /path/to/directory");
 	process.exit(1);
 }
-
-
 
 logger.info('listening on %s', directory);
 
@@ -30,8 +31,7 @@ sio.on('connect', function () {
 });
 
 
-
-gaze(process.cwd() + "/*.js", function (err, watcher) {
+gaze(directory, function (err, watcher) {
 	if(err) {
 		throw err;
 	}
@@ -43,6 +43,7 @@ gaze(process.cwd() + "/*.js", function (err, watcher) {
 
 	// On file changed
 	this.on('changed', function (filepath) {
+		console.log("HABABA");
 		sio.emit('file:changed',
 			path.basename(filepath),
 			Date.now(),

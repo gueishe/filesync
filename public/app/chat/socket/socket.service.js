@@ -57,7 +57,6 @@
 
 				onMessagesUpdated: function (f) {
 					socket.on('messages:updated', f);
-					console.log("COUCOU");
 				},
 
 				botRoulette: function () {

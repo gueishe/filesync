@@ -1,6 +1,6 @@
 (function () {
 
-	const app = angular.module('filesync.chat')
+	const app = angular.module('filesync.chat.input')
 		.controller('inputController', ['$scope', 'socketService', function ($scope, socketService) {
             // Maybe use angular-scroll for new messages scroll down and goto messages, pinned etc
 			let vm = this;

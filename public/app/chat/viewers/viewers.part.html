@@ -1,0 +1,10 @@
+<div id="containerColor" class="controlColor hidden">
+    <div class="choixCouleur">
+        CHOIX DE COULEUR !
+    </div>
+    <hr>
+    <div ng-repeat="color in vC.colors track by $index" class="colors">
+        <div ng-if="vC.color == color" ng-click="vC.updateColor();vC.color=color" class="glyphicon glyphicon-stop color used" aria-hidden="true" style="color: {{ color }}" id="{{ color }}"></div>
+        <div ng-if="vC.color != color" ng-click="vC.updateColor();vC.color=color" class="glyphicon glyphicon-stop color" aria-hidden="true" style="color: {{ color }}" id="{{ color }}"></div>
+    </div>
+</div>

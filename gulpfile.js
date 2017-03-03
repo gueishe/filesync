@@ -86,9 +86,9 @@ gulp.task('generatepartials', function(){
         moduleName: "cachedpartials",
         prefix: "public/app/"
     }))
-    .pipe(uglify())
-    .pipe(concat("partials.min.js"))
     //.pipe(uglify())
+    .pipe(concat("partials.min.js"))
+    .pipe(uglify())
     .pipe(gulp.dest('./public/scripts/'));
 });
 
@@ -101,11 +101,11 @@ gulp.task('js-watch', ['js'], browserSync.reload);
 gulp.task('bowerization', function(){
     var target = gulp.src('./html/index.html');
     var js = gulp.src(wiredep({directory: './public/components'}).js);
-    //var css = gulp.src(wiredep().css);
+    var css = gulp.src(wiredep().css);
 
     return target
         .pipe(inject(js.pipe(concat('bower.js')).pipe(uglify()).pipe(gulp.dest('./public/scripts'))))
-        //.pipe(inject(css.pipe(concat('bower.css')).pipe(gulp.dest('./styles'))))
+        .pipe(inject(css.pipe(concat('bower.css')).pipe(gulp.dest('./public/styles'))))
         .pipe(gulp.dest('./html'));
 });
 
@@ -129,6 +129,7 @@ gulp.task('generateconfigfile', function(){
 });
 
 gulp.task('dist', ['generatepartials','bowerization','js'], function() {
+    gulp.watch('public/app/**/*.js', ['js-watch']);
 });
 
 gulp.task('serve', ['generatepartials','bowerization','js'], function() {

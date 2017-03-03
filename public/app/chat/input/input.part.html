@@ -1,0 +1,11 @@
+<div class="sendMessage" ng-controller="inputController as iC">
+    <hr>
+    <div class="input">
+        <form ng-submit="iC.sendMessage()">
+            <input type="text" ng-model="iC.message" class="form-control inputChat" id="inputChat" placeholder="Envoyer un message"/>
+        </form>
+    </div>
+    <div class="controlsInput">
+        <span id="controlInputColor" class="glyphicon glyphicon-pencil controlInput" aria-hidden="true"></span>
+    </div>
+</div>
